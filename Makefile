@@ -12,29 +12,33 @@ CC = gcc -Wall -Wextra -Werror
 
 LDIR = $(SDIR)libft/
 LIBINC	= -I$(LDIR)inc/
-INC = $(LIBINC) -I$(IDIR)
+INC = -I$(IDIR)
 
 all: $(MAIN)
 
-$(MAIN): lib mkobj $(OBJ)
-	$(CC) $(LDIR)libft.a $(OBJ) -o $(MAIN)
+$(MAIN): src
+	@$(CC) -o $(MAIN) $(OBJ) $(INC) $(LDIR)libft.a
+	@echo "[./fillit] <compiled>"
+
+src: lib mkobj $(OBJ)
+$(ODIR)%.o:$(SDIR)%.c
+	@$(CC) $(LIBINC) $(INC) -o $@ -c $<
 
 lib:
-	make -C $(LDIR)
+	@make -s -C $(LDIR)
 
 mkobj:
-	mkdir -p $(ODIR)
-
-$(ODIR)%.o:$(SDIR)%.c
-	$(CC) $(INC) -c -o $@ $^
+	@mkdir -p $(ODIR)
 
 clean:
-	rm -rf $(ODIR)
-	make -C $(LDIR) clean
+	@rm -rf $(ODIR)
+	@make -s -C $(LDIR) clean
+	@echo "[./obj/] <deleted>"
 
 fclean: clean
-	rm -rf $(MAIN)
-	make -C $(LDIR) fclean
+	@rm -rf $(MAIN)
+	@make -s -C $(LDIR) fclean
+	@echo "[./fillit] <deleted>"
 
 re: fclean all
 
