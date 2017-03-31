@@ -17,7 +17,7 @@ INC = -I$(IDIR)
 all: $(MAIN)
 
 $(MAIN): src
-	@$(CC) -o $(MAIN) $(OBJ) $(INC) $(LDIR)libft.a
+	@$(CC) -o $(MAIN) $(OBJ) $(INC) -L$(LDIR) -lft
 	@echo "[./fillit] <compiled>"
 
 src: lib mkobj $(OBJ)
