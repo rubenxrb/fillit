@@ -1,49 +1,39 @@
-NAME 	=fillit
+MAIN = fillit
 
-SRC 	=	main.c \
-		ft_fillit.c \
-		ft_pieces.c \
-		ft_validation.c \
-		ft_board.c \
-		ft_getboard.c
+SRC = main.c fillit.c pieces.c	\
+      validation.c board.c	\
+      getboard.c
 
-OD 		= objs
-ODIR	= ./$(OD)/
-SDIR	= ./srcs/
-FSDIR	= $(SDIR)fillit-source/
-OBJ		= $(addprefix $(ODIR),$(SRC:.c=.o))
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
+ODIR = ./obj/
+SDIR = ./src/
+IDIR = ./inc/
+OBJ = $(addprefix $(ODIR),$(SRC:.c=.o))
+CC = gcc -Wall -Wextra -Werror
 
-LDIR	= $(SDIR)libft/
-LIB		= $(LDIR)libft.a
+LDIR = $(SDIR)libft/
+LIBINC	= -I$(LDIR)inc/
+INC = $(LIBINC) -I$(IDIR)
 
-LIBINC	= -I$(LDIR)
-LIBLINK	= -L $(LDIR) -lft
+all: $(MAIN)
 
-all: $(NAME)
+$(MAIN): lib mkobj $(OBJ)
+	$(CC) $(LDIR)libft.a $(OBJ) -o $(MAIN)
 
-$(NAME): $(OD) $(LIB) $(OBJ)
-	$(CC) $(LIBLINK) $(OBJ) -o $(NAME)
-
-$(OD):
-	mkdir -p $(ODIR)
-
-$(LIB):
+lib:
 	make -C $(LDIR)
 
-obj:
+mkobj:
 	mkdir -p $(ODIR)
 
-$(ODIR)%.o:$(FSDIR)%.c
-	$(CC) $(FLAGS) $(LIBINC) -c -o $@ $^
+$(ODIR)%.o:$(SDIR)%.c
+	$(CC) $(INC) -c -o $@ $^
 
 clean:
 	rm -rf $(ODIR)
 	make -C $(LDIR) clean
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -rf $(MAIN)
 	make -C $(LDIR) fclean
 
 re: fclean all

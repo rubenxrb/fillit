@@ -46,5 +46,8 @@ size_t				ft_piece_y(char **tetromino);
 size_t				ft_piece_x(char **tetromino);
 size_t				ft_init_size(t_piece **pieces);
 size_t				ft_count_hash(char *str);
+t_piece				*ft_new_piece(char **tetromino, int count);
+void				ft_free_grid(char **tab, size_t size);
+int				ft_fill_board(t_board *board, t_piece **pieces, size_t size);
 
 #endif
